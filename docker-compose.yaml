@@ -1,0 +1,31 @@
+version: '3'
+services:
+  php_fpm:
+    build: .docker/php-fpm
+    depends_on:
+      -   mariadb
+    volumes:
+      -   ./:/var/www/html/intellifit
+      -   ./var/log:/var/log
+    env_file:
+      -   .env
+    entrypoint: ["./bin/entrypoint.sh"]
+    command: ["php-fpm"]
+  nginx:
+    build: .docker/nginx
+    depends_on:
+      -   php_fpm
+      -   mariadb
+    volumes:
+      -   ./:/var/www/html/intellifit
+      -   ./var/log:/var/log/nginx
+  mariadb:
+    image: mariadb:10.5
+    env_file:
+      -   .env
+    environment:
+      MYSQL_RANDOM_ROOT_PASSWORD: 'true'
+    volumes:
+      -   mariadb-intellifit:/var/lib/mysql
+volumes:
+  mariadb-intellifit:
