@@ -1,4 +1,4 @@
-FROM php:8.1-rc-fpm
+FROM php:8.0-fpm-buster as php
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
   g++ \

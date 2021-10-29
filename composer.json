@@ -4,14 +4,18 @@
     "minimum-stability": "stable",
     "prefer-stable": true,
     "require": {
-        "php": ">=7.2.5",
+        "php": ">=8.0",
         "ext-ctype": "*",
         "ext-iconv": "*",
+        "cakephp/chronos": "^2.3",
         "composer/package-versions-deprecated": "1.11.99.4",
         "doctrine/annotations": "^1.0",
         "doctrine/doctrine-bundle": "^2.4",
         "doctrine/doctrine-migrations-bundle": "^3.1",
         "doctrine/orm": "^2.9",
+        "myclabs/php-enum": "^1.8",
+        "nelmio/api-doc-bundle": "^4.6",
+        "nelmio/cors-bundle": "^2.1",
         "phpdocumentor/reflection-docblock": "^5.2",
         "sensio/framework-extra-bundle": "^6.1",
         "symfony/asset": "5.3.*",
@@ -41,9 +45,12 @@
         "symfony/web-link": "5.3.*",
         "symfony/yaml": "5.3.*",
         "twig/extra-bundle": "^2.12|^3.0",
-        "twig/twig": "^2.12|^3.0"
+        "twig/twig": "^2.12|^3.0",
+        "zircote/swagger-php": "^3.2",
+      "ext-http": "*"
     },
     "require-dev": {
+        "doctrine/doctrine-fixtures-bundle": "^3.4",
         "phpunit/phpunit": "^9.5",
         "symfony/browser-kit": "5.3.*",
         "symfony/css-selector": "5.3.*",
@@ -85,6 +92,9 @@
         ],
         "post-update-cmd": [
             "@auto-scripts"
+        ],
+        "load-fixtures": [
+            "php bin/console doctrine:fixtures:load"
         ]
     },
     "conflict": {

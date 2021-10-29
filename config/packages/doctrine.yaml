@@ -5,6 +5,11 @@ doctrine:
         # IMPORTANT: You MUST configure your server version,
         # either here or in the DATABASE_URL env var (see .env file)
         #server_version: '13'
+        types:
+            chronos_date: App\Doctrine\DBAL\Types\ChronosDateType
+            chronos_datetime: App\Doctrine\DBAL\Types\ChronosDateTimeType
+            chronos_datetimetz: App\Doctrine\DBAL\Types\ChronosDateTimeTzType
+            chronos_datetimetz_micros: App\Doctrine\DBAL\Types\ChronosDateTimeTzMicrosType
     orm:
         auto_generate_proxy_classes: true
         naming_strategy: doctrine.orm.naming_strategy.underscore_number_aware
