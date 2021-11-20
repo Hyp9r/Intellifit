@@ -1,0 +1,61 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <redoc spec-url='http://localhost:4000/api/doc.json'></redoc>
+    <script src="https://cdn.jsdelivr.net/npm/redoc@latest/bundles/redoc.standalone.js"> </script>
+{% endblock body %}
+
+{% block stylesheets %}
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:300,400,700|Roboto:300,400,700" rel="stylesheet">
+    <style>
+        body {margin: 0; padding: 0;}
+        .menu-content { top: 0 !important; height: 100vh !important;}
+        .menu-content > div > a > img { padding-top: 30px; }
+        .menu-content span[type] {font-family: Roboto, serif; font-size: 10px; line-height: 16px; height:15px; margin-top:3px;}
+        .api-content span[type] {font-family: Roboto, serif; border-radius: 4px; font-weight: bold}
+        .api-content p code {color: rgba(51, 51, 51, 0.9);}
+    </style>
+{% endblock stylesheets %}
+
+{% block javascripts %}
+    {% if app.request.uri ~ '/' %}
+        {% set description %}{% include 'api_doc_intellifit_description.md.twig' %}{% endset %}
+    {% else %}
+        {% set description %}{% include 'api_doc_description.md.twig' %}{% endset %}
+    {% endif %}
+
+    <script src="https://cdn.jsdelivr.net/npm/redoc@next/bundles/redoc.standalone.js"></script>
+    <script>
+        window.onload = () => {
+            var spec = {{ apiDoc|json_encode|raw }};
+
+            spec.info['description'] = '{{ description|replace({'\n':'\\n'})|raw }}';
+            spec.info['x-logo'] = { url: '/api/logo.png', altText: 'Logo'};
+
+            // postRender event fixes default values with long arrays that cannot do line breaks
+            var onPostRender = () => {
+                var spanDefault = document.evaluate("//span[text()='Default:']/following-sibling::span", document, null, XPathResult.ANY_TYPE, null);
+
+                var node = null;
+                var nodes = [];
+                while (node = spanDefault.iterateNext()) {
+                    nodes.push(node);
+                }
+
+                nodes.forEach(node => {
+                    node.textContent = node.textContent.replace(/","/g , '", "');
+                });
+            };
+
+            Redoc.init(spec, {
+                scrollYOffset: 50,
+                theme: {
+                    menu: {
+                        backgroundColor: '#e8e8e8',
+                    }
+                },
+            }, document.getElementById('redoc-container'), onPostRender);
+        }
+    </script>
+{% endblock javascripts %}
+
