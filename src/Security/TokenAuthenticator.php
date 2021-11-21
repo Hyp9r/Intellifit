@@ -48,6 +48,7 @@ class TokenAuthenticator extends AbstractGuardAuthenticator
 
     public function getCredentials(Request $request)
     {
+        dd("Ovdje");
         $header = (string) $request->headers->get(static::HEADER_AUTHORIZATION, '');
 
         if (!preg_match(self::TOKEN_REGEX, $header, $matches)) {
@@ -152,7 +153,7 @@ class TokenAuthenticator extends AbstractGuardAuthenticator
         $header = $this->base64UrlEncode($data['header']);
         $payload = $this->base64UrlEncode($data['payload']);
         $signature = $this->base64UrlEncode(hash_hmac('sha256', $header.'.'.$payload, $this->secret, true));
-        dd($signature, $data['signature']);
+        return true;
         return $signature === $data['signature'];
     }
 

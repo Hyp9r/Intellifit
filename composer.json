@@ -17,6 +17,7 @@
         "myclabs/php-enum": "^1.8",
         "nelmio/api-doc-bundle": "^4.6",
         "nelmio/cors-bundle": "^2.1",
+        "openfoodfacts/openfoodfacts-php": "^0.2.4",
         "phpdocumentor/reflection-docblock": "^5.2",
         "sensio/framework-extra-bundle": "^6.1",
         "symfony/asset": "5.3.*",

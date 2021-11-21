@@ -8,6 +8,7 @@ use App\Api\Api;
 use App\Api\Enum\ApiOperation;
 use App\Api\Exception\ApiException;
 use App\Entity\Food;
+use App\Integration\OpenFoodFacts\OpenFoodFactsClient;
 use App\Repository\FoodRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Nelmio\ApiDocBundle\Annotation\Model;
@@ -41,13 +42,20 @@ class FoodController extends AbstractController
      */
     protected Api $api;
 
+    /**
+     * @var OpenFoodFactsClient
+     */
+    protected OpenFoodFactsClient $client;
+
 
     public function __construct(
         FoodRepository $foodRepository,
-        EntityManagerInterface $entityManager
+        EntityManagerInterface $entityManager,
+        OpenFoodFactsClient $client
     ) {
         $this->foodRepository = $foodRepository;
         $this->entityManager = $entityManager;
+        $this->client = $client;
     }
 
     /**
@@ -71,6 +79,7 @@ class FoodController extends AbstractController
      */
     public function find(Food $food): Response
     {
+        dd($this->client->getFood('dsadsa'));
         return $this->json($this->foodRepository->find($food));
     }
 
